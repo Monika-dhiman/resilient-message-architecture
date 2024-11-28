@@ -5,6 +5,7 @@ require('dotenv').config();
 
 export const dataSourceOptions = (
   configService: ConfigService,
+  domain: 'shipping' | 'sales' | 'product-catalog' | 'billing' | '**' = '**',
 ): DataSourceOptions & SeederOptions => ({
   type: 'postgres',
   host: configService.get<string>('DB_HOST'),
@@ -12,16 +13,11 @@ export const dataSourceOptions = (
   username: configService.get<string>('DB_USER'),
   password: configService.get<string>('DB_PASSWORD'),
   database: configService.get<string>('DB_DATABASE'),
-  entities: ['dist/src/domain/**/*entity.js'],
+  entities: [`dist/src/modules/${domain}/domain/**/*entity.js`],
   synchronize: false,
   migrationsTableName: 'migrations',
-  migrations: [
-    'dist/src/infrastructure/database/migrations/*.js',
-    'dist/src/modules/sales/infrastructure/database/migrations/*.js',
-    'dist/src/modules/billing/infrastructure/database/migrations/*.js',
-    'dist/src/modules/shipping/infrastructure/database/migrations/*.js',
-  ],
-  seeds: ['dist/src/infrastructure/database/seeders/*.js'],
+  migrations: ['dist/src/**/**/infrastructure/database/migrations/*.js'],
+  seeds: ['dist/src/**/**/infrastructure/database/seeders/*.js'],
   seedTracking: true,
 });
 

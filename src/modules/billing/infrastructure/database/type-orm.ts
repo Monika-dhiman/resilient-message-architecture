@@ -8,7 +8,7 @@ import { Module } from '@nestjs/common';
     NestTypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) =>
-        dataSourceOptions(configService, '**'),
+        dataSourceOptions(configService, 'billing'),
       inject: [ConfigService],
     }),
   ],

@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('billing_accounts')
-export class BillingOrder {
+export class BillingAccount {
   @PrimaryColumn({ type: 'uuid', unique: true, nullable: false })
   billing_account_id: string;
 
