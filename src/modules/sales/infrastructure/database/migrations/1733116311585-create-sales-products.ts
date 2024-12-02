@@ -12,7 +12,6 @@ export class CreateSalesProduct1733116311585 implements MigrationInterface {
             type: 'uuid',
             isPrimary: true,
             isNullable: false,
-            isUnique: true,
           },
           {
             name: 'price',

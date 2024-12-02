@@ -3,7 +3,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from './infrastructure/database/type-orm';
-import { AppHandler } from './app.handler';
+import { AppHandler } from './app.service';
+import { SalesModule } from './modules/sales/features/sales.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { AppHandler } from './app.handler';
     }),
     TypeOrmModule,
     HelloWorldModule,
+    SalesModule,
   ],
   controllers: [AppController],
   providers: [AppHandler],

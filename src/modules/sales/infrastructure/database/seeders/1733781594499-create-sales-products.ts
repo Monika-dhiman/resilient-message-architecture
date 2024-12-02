@@ -3,7 +3,7 @@ import { DataSource } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { StorageFileHandler } from 'src/infrastructure/storage/file-storage.service';
 import { DriveConfigurationService } from 'src/infrastructure/storage/drive-config';
-import { SalesProducts } from 'src/modules/sales/domain/sales-products/sales-products.entity';
+import { SalesProduct } from 'src/modules/sales/domain/sales-products/sales-products.entity';
 
 export default class SalesProductsSeeder implements Seeder {
   private storageFileHandler: StorageFileHandler;
@@ -20,7 +20,7 @@ export default class SalesProductsSeeder implements Seeder {
       this.configService.get<string>('SEED_FILES_PATH') + this.fileName;
   }
   async run(dataSource: DataSource): Promise<void> {
-    const repository = dataSource.getRepository(SalesProducts);
+    const repository = dataSource.getRepository(SalesProduct);
     const salesProducts = await this.storageFileHandler.getFile(
       this.salesProductsSeedFilePath,
     );
