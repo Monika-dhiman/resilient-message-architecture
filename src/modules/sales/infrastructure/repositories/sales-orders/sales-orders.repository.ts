@@ -9,7 +9,10 @@ export class SalesOrderRepository extends Repository<SalesOrder> {
     super(SalesOrder, dataSource.createEntityManager());
   }
 
-  async createOrder(payload: DeepPartial<SalesOrder>): Promise<SalesOrder> {
+  async createOrder(payload: DeepPartial<SalesOrder>, transaction = null): Promise<SalesOrder> {
+    if (transaction) {
+      return await transaction.save(SalesOrder, payload);
+    }
     return await this.save(payload);
   }
 

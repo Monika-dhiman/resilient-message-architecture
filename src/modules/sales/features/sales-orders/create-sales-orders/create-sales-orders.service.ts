@@ -1,18 +1,23 @@
+import { OutboxMessageRepository } from 'src/infrastructure/repositories/outbox-message/outbox-message.repository';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SalesOrder } from 'src/modules/sales/domain/sales-orders/sales-orders.entity';
 import { SalesOrderRepository } from 'src/modules/sales/infrastructure/repositories/sales-orders/sales-orders.repository';
 import { CreateOrderDto } from './create-sales-orders.dto';
 import { SalesProductRepository } from 'src/modules/sales/infrastructure/repositories/sales-products/sales-products.repository';
+import { SalesOrderPlacedEvent } from 'src/modules/sales/domain/sales-orders/events/sales-orders.events';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class CreateSalesOrderHandler {
   constructor(
     @InjectRepository(SalesOrderRepository)
     private readonly saleOrderRepository: SalesOrderRepository,
+    @InjectRepository(OutboxMessageRepository)
+    private readonly outboxMessageRepository: OutboxMessageRepository,
     private readonly salesProductRepository: SalesProductRepository,
+    private dataSource: DataSource,
   ) {}
-  async handle(payload: CreateOrderDto): Promise<SalesOrder> {
+  async handle(payload: CreateOrderDto) {
     const salesProducts = await this.salesProductRepository.listSalesProducts();
 
     let totalAmount = 0;
@@ -27,9 +32,19 @@ export class CreateSalesOrderHandler {
       }
     });
 
-    return this.saleOrderRepository.createOrder({
-      ...payload,
-      total_amount: totalAmount,
+    return await this.dataSource.transaction(async (transaction) => {
+      const order = await this.saleOrderRepository.createOrder(
+        {
+          ...payload,
+          total_amount: totalAmount,
+        },
+        transaction,
+      );
+
+      await this.outboxMessageRepository.storeOutboxMessage(
+        new SalesOrderPlacedEvent(order),
+        transaction,
+      );
     });
   }
 }
