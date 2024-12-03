@@ -6,6 +6,7 @@ import { TypeOrmModule } from './infrastructure/database/type-orm';
 import { AppHandler } from './app.service';
 import { SalesModule } from './modules/sales/features/sales.module';
 import { BillingModule } from './modules/billing/features/billing.module';
+import { ShippingModule } from './modules/shipping/features/shipping.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { BillingModule } from './modules/billing/features/billing.module';
     HelloWorldModule,
     SalesModule,
     BillingModule,
+    ShippingModule,
   ],
   controllers: [AppController],
   providers: [AppHandler],
