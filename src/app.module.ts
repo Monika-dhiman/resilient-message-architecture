@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from './infrastructure/database/type-orm';
 import { AppHandler } from './app.service';
 import { SalesModule } from './modules/sales/features/sales.module';
+import { BillingModule } from './modules/billing/features/billing.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { SalesModule } from './modules/sales/features/sales.module';
     TypeOrmModule,
     HelloWorldModule,
     SalesModule,
+    BillingModule,
   ],
   controllers: [AppController],
   providers: [AppHandler],

@@ -12,7 +12,7 @@ export class BillingOrder {
   order_id: string;
 
   @Column({ type: 'uuid', nullable: false })
-  billing_acount_id: string;
+  billing_account_id: string;
 
   @Column({ type: 'varchar', nullable: false })
   billing_address: string;

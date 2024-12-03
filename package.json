@@ -36,6 +36,7 @@
     "@slynova/flydrive": "^1.0.3",
     "@slynova/flydrive-gcs": "^1.0.3",
     "amqplib": "^0.10.5",
+    "class-validator": "^0.14.1",
     "dotenv": "^16.4.5",
     "jsonrepair": "^3.11.0",
     "nest-commander": "^3.15.0",
