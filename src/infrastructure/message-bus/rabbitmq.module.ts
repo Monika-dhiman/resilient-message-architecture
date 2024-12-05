@@ -26,8 +26,8 @@ import { HelloWorldHandler } from '../processors/handle-hello-world/handle-hello
   ],
   providers: [
     DispatchMessages,
-    HandleMessages,
     RabbitmqConfigService,
+    HandleMessages,
     RabbitmqConfigurerService,
     RabbitmqConnectionService,
     ProducerService,

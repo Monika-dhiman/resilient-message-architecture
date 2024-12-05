@@ -5,26 +5,8 @@ import { ConfigType } from '../rabbitmq.interface';
 
 @Injectable()
 export class RabbitmqConfigService {
-  private readonly fanoutExchange?: string;
-  private readonly directExchange?: string;
-  private readonly primaryQueue?: string;
-  private readonly retryQueue?: string;
-  private readonly retryBindingKey?: string;
 
-  constructor(
-    private configService: ConfigService,
-    fanoutExchange: string,
-    directExchange: string,
-    primaryQueue: string,
-    retryQueue: string,
-    retryBindingKey: string,
-  ) {
-    this.fanoutExchange = fanoutExchange;
-    this.directExchange = directExchange;
-    this.primaryQueue = primaryQueue;
-    this.retryQueue = retryQueue;
-    this.retryBindingKey = retryBindingKey;
-  }
+  constructor(private configService: ConfigService) {}
 
   private maxReconnectTries: number = 3;
   private reconnectPolicy = true;
@@ -32,24 +14,15 @@ export class RabbitmqConfigService {
     username: this.configService.get<string>('RABBITMQ_USERNAME'),
     password: this.configService.get<string>('RABBITMQ_PASSWORD'),
     appName: this.configService.get<string>('APP_NAME'),
-    fanoutExchange:
-      this.fanoutExchange ||
-      this.configService.get<string>('RABBITMQ_FANOUT_EXCHANGE'),
+    fanoutExchange: this.configService.get<string>('RABBITMQ_FANOUT_EXCHANGE'),
     heartbeatInterval: this.configService.get<number>(
       'RABBITMQ_HEARTBEAT_INTERVAL',
     ),
     dsn: this.configService.get<string>('RABBITMQ_DSN'),
-    directExchange:
-      this.directExchange ||
-      this.configService.get<string>('RABBITMQ_DIRECT_EXCHANGE'),
-    primaryQueue:
-      this.primaryQueue ||
-      this.configService.get<string>('RABBITMQ_PRIMARY_QUEUE'),
-    retryQueue:
-      this.retryQueue || this.configService.get<string>('RABBITMQ_RETRY_QUEUE'),
-    retryBindingKey:
-      this.retryBindingKey ||
-      this.configService.get<string>('RABBITMQ_RETRY_BINDING_KEY'),
+    directExchange: this.configService.get<string>('RABBITMQ_DIRECT_EXCHANGE'),
+    primaryQueue: this.configService.get<string>('RABBITMQ_PRIMARY_QUEUE'),
+    retryQueue: this.configService.get<string>('RABBITMQ_RETRY_QUEUE'),
+    retryBindingKey: this.configService.get<string>('RABBITMQ_RETRY_BINDING_KEY'),
     errorBindingKey: this.configService.get<string>(
       'RABBITMQ_ERROR_BINDING_KEY',
     ),
